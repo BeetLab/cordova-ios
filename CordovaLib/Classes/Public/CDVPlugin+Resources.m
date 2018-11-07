@@ -18,12 +18,13 @@
  */
 
 #import "CDVPlugin+Resources.h"
+#import "CDBundle.h"
 
 @implementation CDVPlugin (CDVPluginResources)
 
 - (NSString*)pluginLocalizedString:(NSString*)key
 {
-    NSBundle* bundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:NSStringFromClass([self class]) ofType:@"bundle"]];
+    NSBundle* bundle = [NSBundle bundleWithPath:[[CDBundle bundle] pathForResource:NSStringFromClass([self class]) ofType:@"bundle"]];
 
     return [bundle localizedStringForKey:(key) value:nil table:nil];
 }

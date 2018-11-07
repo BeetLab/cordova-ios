@@ -22,6 +22,8 @@
 #import "CDVCommandQueue.h"
 #import "CDVPluginResult.h"
 #import "CDVViewController.h"
+#import "CDBundle.h"
+
 
 @implementation CDVCommandDelegateImpl
 
@@ -47,7 +49,7 @@
 
 - (NSString*)pathForResource:(NSString*)resourcepath
 {
-    NSBundle* mainBundle = [NSBundle mainBundle];
+    NSBundle* mainBundle = [CDBundle bundle];
     NSMutableArray* directoryParts = [NSMutableArray arrayWithArray:[resourcepath componentsSeparatedByString:@"/"]];
     NSString* filename = [directoryParts lastObject];
 

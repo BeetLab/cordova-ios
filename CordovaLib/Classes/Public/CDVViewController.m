@@ -28,6 +28,7 @@
 #import "CDVLocalStorage.h"
 #import "CDVCommandDelegateImpl.h"
 #import <Foundation/NSCharacterSet.h>
+#import "CDBundle.h"
 
 @interface CDVViewController () {
     NSInteger _userAgentLockToken;
@@ -76,7 +77,7 @@
 
         // read from UISupportedInterfaceOrientations (or UISupportedInterfaceOrientations~iPad, if its iPad) from -Info.plist
         self.supportedOrientations = [self parseInterfaceOrientations:
-            [[[NSBundle mainBundle] infoDictionary] objectForKey:@"UISupportedInterfaceOrientations"]];
+            [[[CDBundle bundle] infoDictionary] objectForKey:@"UISupportedInterfaceOrientations"]];
 
         [self printVersion];
         [self printMultitaskingInfo];
@@ -129,7 +130,7 @@
         backgroundSupported = device.multitaskingSupported;
     }
 
-    NSNumber* exitsOnSuspend = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UIApplicationExitsOnSuspend"];
+    NSNumber* exitsOnSuspend = [[CDBundle bundle] objectForInfoDictionaryKey:@"UIApplicationExitsOnSuspend"];
     if (exitsOnSuspend == nil) { // if it's missing, it should be NO (i.e. multi-tasking on by default)
         exitsOnSuspend = [NSNumber numberWithBool:NO];
     }
@@ -142,7 +143,7 @@
 
     // if path is relative, resolve it against the main bundle
     if(![path isAbsolutePath]){
-        NSString* absolutePath = [[NSBundle mainBundle] pathForResource:path ofType:nil];
+        NSString* absolutePath = [[CDBundle bundle] pathForResource:path ofType:nil];
         if(!absolutePath){
             NSAssert(NO, @"ERROR: %@ not found in the main bundle!", path);
         }
@@ -684,7 +685,7 @@
 {
     NSString* URLScheme = nil;
 
-    NSArray* URLTypes = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleURLTypes"];
+    NSArray* URLTypes = [[[CDBundle bundle] infoDictionary] objectForKey:@"CFBundleURLTypes"];
 
     if (URLTypes != nil) {
         NSDictionary* dict = [URLTypes objectAtIndex:0];
